@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface TheatreRepository extends JpaRepository<Theatre,Long> {
-Theatre findBytheatreName(String theatreName);
+Theatre findByTheatreName(String theatreName);
 
 @Query("Select t from Theatre t, Movie m, Show s " +
         "where m.id = :movieId " +

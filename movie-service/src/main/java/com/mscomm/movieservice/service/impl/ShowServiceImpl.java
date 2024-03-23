@@ -15,4 +15,9 @@ public class ShowServiceImpl implements ShowService {
     public List<Show> getShowsByMovieIdAndTheatreId(Long movieId, Long theatreId) {
         return showRepository.findByMovieIdAndTheatreId(movieId, theatreId);
     }
+
+    @Override
+    public Show saveShow(Show show) {
+        return showRepository.save(show);
+    }
 }

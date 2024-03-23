@@ -12,30 +12,30 @@ import java.util.List;
 @AllArgsConstructor
 public class TheatreServiceImpl implements TheatreService{
 	
-	 private TheatreRepository departmentRepository;
+	 private TheatreRepository theatreRepository;
 	@Override
-	public Theatre saveDepartment(Theatre department) {
-	return departmentRepository.save(department);
+	public Theatre saveTheatre(Theatre theatre) {
+	return theatreRepository.save(theatre);
 	}
 
 	@Override
-	public Theatre getDepartmentById(Long departmentId) {
-		 return departmentRepository.findById(departmentId).get();
+	public Theatre getTheatreById(Long theatreId) {
+		 return theatreRepository.findById(theatreId).get();
 	}
 
 	@Override
 	public List<Theatre> getAllTheatres() {
-		return departmentRepository.findAll();
+		return theatreRepository.findAll();
 	}
 
 	@Override
 	public List<Theatre> getTheatresForMovieId(Long movieId) {
-		return departmentRepository.getTheatresForMovieId(movieId);
+		return theatreRepository.getTheatresForMovieId(movieId);
 	}
 
 	@Override
-	public Theatre getDepartmentBytheatreName(String theatreName) {
-		 return departmentRepository.findBytheatreName(theatreName);
+	public Theatre getTheatreByTheatreName(String theatreName) {
+		 return theatreRepository.findByTheatreName(theatreName);
 	}
 
 }

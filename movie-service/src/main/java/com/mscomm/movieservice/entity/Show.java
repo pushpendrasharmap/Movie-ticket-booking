@@ -23,5 +23,5 @@ public class Show {
     private Long theatreId;
     private LocalDate date;
     private LocalTime time;
-    private Long price;
+    private Long ticketPrice;
 }

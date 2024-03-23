@@ -15,34 +15,34 @@ import java.util.List;
 @CrossOrigin(origins="*")
 public class TheatreController {
 
-	private TheatreService departmentService;
+	private TheatreService theatreService;
 
     @PostMapping
-    public ResponseEntity<Theatre> saveDepartment(@RequestBody Theatre department){
-        Theatre savedDepartment = departmentService.saveDepartment(department);
+    public ResponseEntity<Theatre> saveTheatre(@RequestBody Theatre theatre){
+        Theatre savedDepartment = theatreService.saveTheatre(theatre);
         return new ResponseEntity<>(savedDepartment, HttpStatus.CREATED);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Theatre> getDepartmentById(@PathVariable("id") Long departmentId){
-        Theatre department = departmentService.getDepartmentById(departmentId);
+    public ResponseEntity<Theatre> getTheatreById(@PathVariable("id") Long theatreId){
+        Theatre department = theatreService.getTheatreById(theatreId);
         return ResponseEntity.ok(department);
     }
     @GetMapping("/t/{theatreName}")
-    public ResponseEntity<Theatre> getDepartmentByTheatreName(@PathVariable("theatreName") String theatreName){
-        Theatre department = departmentService.getDepartmentBytheatreName(theatreName);
+    public ResponseEntity<Theatre> getTheatreByTheatreName(@PathVariable("theatreName") String theatreName){
+        Theatre department = theatreService.getTheatreByTheatreName(theatreName);
         return ResponseEntity.ok(department);
     }
     @GetMapping
     public ResponseEntity<List<Theatre>> getAllTheatres() {
-        List<Theatre> department = departmentService.getAllTheatres();
+        List<Theatre> department = theatreService.getAllTheatres();
         return ResponseEntity.ok(department);
     }
 
     @GetMapping("/m/{movieId}")
     public ResponseEntity<List<Theatre>> getTheatresForMovie(@PathVariable("movieId") Long movieId) {
 
-        return ResponseEntity.ok(departmentService.getTheatresForMovieId(movieId));
+        return ResponseEntity.ok(theatreService.getTheatresForMovieId(movieId));
 
     }
 }

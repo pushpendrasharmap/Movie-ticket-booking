@@ -1,12 +1,10 @@
 package com.mscomm.userservice.entity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.beans.factory.annotation.Value;
 @Entity
 @Table(name = "users")
+@Builder
 @Setter
 @Getter
 @NoArgsConstructor
