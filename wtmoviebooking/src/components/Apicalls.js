@@ -2,10 +2,10 @@ import axios from 'axios';
 const config= {
     url: {
         API_BASE_URL: 'http://localhost:8081',
-        API_BASE_URL1: 'http://localhost:8082',
-        API_BASE_URL2: 'http://localhost:8083',
+        API_BASE_URL1: 'http://localhost:8081',
+        API_BASE_URL2: 'http://localhost:8081',
         API_BASE_URL3: 'https://apipro1.ocr.space/parse',
-        API_BASE_URL4: 'http://localhost:8084'
+        API_BASE_URL4: 'http://localhost:8081'
     }
 }
 

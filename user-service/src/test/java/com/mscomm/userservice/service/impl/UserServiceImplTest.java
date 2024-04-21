@@ -55,25 +55,26 @@ class UserServiceImplTest {
                 .name("test")
                 .password("password123")
                 .build();
-        when(userRepository.findByEmail(email)).thenReturn(Optional.of(user));
+        when(userRepository.findByEmailAndPassword(email, user.getPassword())).thenReturn(Optional.of(user));
 
         // Act
-        User foundUser = userService.getUserByEmailAndPassword(email);
+        User foundUser = userService.getUserByEmailAndPassword(email, user.getPassword());
 
         // Assert
         assertNotNull(foundUser);
         assertEquals(user, foundUser);
-        verify(userRepository, times(1)).findByEmail(email);
+        verify(userRepository, times(1)).findByEmailAndPassword(email, user.getPassword());
     }
 
     @Test
     void getUserByEmailAndPassword_NonExistingEmail_ShouldThrowNoSuchElementException() {
         // Arrange
         String email = "nonexisting@example.com";
-        when(userRepository.findByEmail(email)).thenReturn(Optional.empty());
+        String password = "test";
+        when(userRepository.findByEmailAndPassword(email, password)).thenReturn(Optional.empty());
 
         // Act & Assert
-        assertThrows(NoSuchElementException.class, () -> userService.getUserByEmailAndPassword(email));
-        verify(userRepository, times(1)).findByEmail(email);
+        assertThrows(NoSuchElementException.class, () -> userService.getUserByEmailAndPassword(email, password));
+        verify(userRepository, times(1)).findByEmailAndPassword(email, password);
     }
 }

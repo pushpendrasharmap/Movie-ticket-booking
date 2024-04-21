@@ -26,12 +26,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User getUserByEmailAndPassword(String email) {
-		Optional<User> user = userRepository.findByEmail(email);
+	public User getUserByEmailAndPassword(String email, String password) {
+		Optional<User> user = userRepository.findByEmailAndPassword(email, password);
 		if (user.isPresent()) {
 			return user.get();
 		}
-		throw new NoSuchElementException("No User with given email is found");
+		throw new NoSuchElementException("No User with given email and password is found");
 	}
 
 

@@ -14,37 +14,19 @@ import {
   Modal,
   Paper,
 } from "@mui/material";
-import { Box } from "@mui/system";
 
 // import not from "../Img/notfound.png";
 
-function MovieCards(props){
+function MovieCards(props) {
   const [open, setOpen] = useState(false);
-  const [keys, setKeys] = useState([]);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
- const usern = ReactSession.get("username");
- 
-  const opts = {
-    height: "190",
-    width: "340",
-   
-  };
-  // const getVideos = async (id) => {
-  //   var k = [];
-  //   await axios
-  //     .get(
-  //       `https://api.themoviedb.org/3/movie/${id}/videos?api_key=b7cd3340a794e5a2f35e3abb820b497f&language=en-US`
-  //     )
-
-  //     .then((res) => {
-  //       console.log(res.data.results);
-  //       k = res.data.results.filter((i) => i.site === "YouTube");
-  //       setKeys(k);
-  //       console.log(k);
-  //     });
-  // };
+  const handleBookTicket = (props) => {
+    ReactSession.set('movieName', props.movieName);
+    ReactSession.set('movieId', props.id);
+  }
+  const usern = ReactSession.get("username");
 
   return (
     <div>
@@ -88,26 +70,26 @@ function MovieCards(props){
               justifyContent: "center",
             }}
           >
-           <Link
-  style={{ textDecoration: "none", marginRight: "10px" }}
-  to={usern ? "/theatre" : "/login"}
-  state={props.passed}
->
-  <Button size="small" variant="contained" color="primary">
-    Book Ticket
-  </Button>
-</Link>
+            <Link
+              style={{ textDecoration: "none", marginRight: "10px" }}
+              to={usern ? "/theatre" : "/login"}
+              state={props.passed}
+            >
+              <Button size="small" variant="contained" color="primary" onClick={() => {
+                handleBookTicket(props.passed);
+              }}>
+                Book Ticket
+              </Button>
+            </Link>
             <Button
               size="small"
               variant="contained"
               color="secondary"
               onClick={() => {
                 handleOpen(props.passed);
-
-                // getVideos(props.passed.id);
               }}
             >
-              more details
+              More Details
             </Button>
           </div>
         </CardActions>
@@ -173,17 +155,6 @@ function MovieCards(props){
               <Typography variant="body2" color="text.secondary">
                 {props.passed.overview}
               </Typography>
-
-              {/* {keys &&
-                keys.map(
-                  (i, index) =>
-                    index < 2 && (
-                      <div key={i.key}>
-                        <Typography>{i.name}</Typography>
-                        <YouTube videoId={`${i.key}`} opts={opts} />
-                      </div>
-                    )
-                )} */}
             </CardContent>
           </Card>
         </Paper>

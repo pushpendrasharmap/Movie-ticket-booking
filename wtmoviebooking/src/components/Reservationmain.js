@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     cursor: 'pointer',
     display: 'inline-block',
     marginTop: 20,
-    marginBottom :0,
+    marginBottom: 0,
   },
   toastContainer: {
     //position: 
@@ -64,7 +64,7 @@ function Reservationmain() {
   const [data, setData] = useState([]);
 
   const [renderper, setRenderper] = useState();
-  
+
   const [transferEmail, setTransferEmail] = useState('');
   const [transferBookingId, setTransferBookingId] = useState(null);
 
@@ -74,19 +74,19 @@ function Reservationmain() {
     };
     setRenderper(ReactSession.get('username'));
     fetchBookings(udetail);
-    
+
   }, []);
 
   const fetchBookings = (udetail) => {
     Apicalls.GetUserBookings(udetail.id)
-    .then((response) => {
-      console.log(response.data);
-      setData(response.data);
-      // console.log(data.movie.movieName);
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+      .then((response) => {
+        console.log(response.data);
+        setData(response.data);
+        // console.log(data.movie.movieName);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   const handleDownload = () => {
@@ -106,30 +106,30 @@ function Reservationmain() {
   const confirmTransfer = () => {
     // Logic to transfer booking using transferEmail
     // Call API to perform transfer
-      fetch('http://localhost:8081/api/users/'+ transferEmail).then(
-        response => response.json()
-      ).then(data => {
-        console.log("data id" + data.id);
-        Apicalls.TransferBooking(transferBookingId, data)
-          .then(() => {
-            toast.success('Booking transferred successfully!');
-            // Clear transfer-related states
-            setTransferBookingId(null);
-            setTransferEmail('');
-            // Refresh bookings after transfer
-            const udetail = {
-              id: ReactSession.get('id'),
-            };
-            fetchBookings(udetail);
-          })
-          .catch((error) => {
-            console.error(error);
-            toast.error('Failed to transfer booking.');
-          });
-      }, (e) =>{
-        toast.error("No user with provided email fount");
-      })
-    
+    fetch('http://localhost:8081/api/users/' + transferEmail).then(
+      response => response.json()
+    ).then(data => {
+      console.log("data id" + data.id);
+      Apicalls.TransferBooking(transferBookingId, data)
+        .then(() => {
+          toast.success('Booking transferred successfully!');
+          // Clear transfer-related states
+          setTransferBookingId(null);
+          setTransferEmail('');
+          // Refresh bookings after transfer
+          const udetail = {
+            id: ReactSession.get('id'),
+          };
+          fetchBookings(udetail);
+        })
+        .catch((error) => {
+          console.error(error);
+          toast.error('Failed to transfer booking.');
+        });
+    }, (e) => {
+      toast.error("No user with provided email fount");
+    })
+
   };
 
   const handleCancel = (bookingId) => {
@@ -150,7 +150,7 @@ function Reservationmain() {
       });
   };
 
-  const MyDocument = ({booking}) => (
+  const MyDocument = ({ booking }) => (
     <Document>
       <Page>
         <View style={styles.container}>
@@ -165,43 +165,46 @@ function Reservationmain() {
             <Text style={styles.detailText}>Movie ID: {booking.body.movieId}</Text>
             <Text style={styles.detailText}>Movie Name: {booking.body.movieName}</Text>
             <Text style={styles.detailText}>Name: {booking.body.userName}</Text>
-            
+
             <Text style={styles.detailText}>Price: {booking.body.price}</Text>
-           
+
             <Text style={styles.detailText}>Seat: {booking.body.seat}</Text>
             <Text style={styles.detailText}>Theatre ID: {booking.body.theatreId}</Text>
             <Text style={styles.detailText}>Theatre Name: {booking.body.theatreName}</Text>
           </View>
         </View>
-        
+
       </Page>
     </Document>
   );
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60vh' }}>
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60vh' }}>
-        <h1>Reservation Details:</h1>
-          <div style={{maxHeight: '300px', overflowY:'auto', display: 'flex', flexDirection: 'column', alignItems:'center'}}>
-            
-            {data && renderper !== null ? 
-              data.map((booking, i) => (
-              <div key={i}>
-                <br/>
-                <br/>
+      <div>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center',  marginBottom: "20px"}}>
+          <h1>Reservation Details:</h1>
+        </div>
+        <div style={{ maxHeight: '300px', overflowY: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+
+          {data && renderper !== null ?
+            data.map((booking, i) => (
+              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginLeft: "10px", marginBottom: "50px" }} key={i}>
+                
+                <div>
                 <p>Datetime: {booking.body.datetime}</p>
                 <p>Email: {booking.body.email}</p>
                 <p>ID: {booking.body.userId}</p>
                 <p>Movie ID: {booking.body.movieId}</p>
                 <p>Movie Name: {booking.body.movieName}</p>
                 <p>Name: {booking.body.userName}</p>
-                
+
                 <p>Price: {booking.body.price}</p>
-                
+
                 <p>Seat: {booking.body.seat}</p>
                 <p>Theatre ID: {booking.body.theatreId}</p>
                 <p>Theatre Name: {booking.body.theatreName}</p>
+                </div>
+                <div>
                 <PDFDownloadLink document={<MyDocument booking={booking} />} fileName="reservation.pdf">
                   {({ blob, url, loading, error }) => (
                     <>
@@ -213,41 +216,52 @@ function Reservationmain() {
                   )}
                 </PDFDownloadLink>
                 <button
-            type="button"
-            style={styles.button}
-            onClick={() => handleTransfer(booking.body.id)}
-          >
-            Transfer
-          </button>
-          <button
-            type="button"
-            style={styles.button}
-            onClick={() => handleCancel(booking.body.id)}
-          >
-            Cancel
-          </button>
-          {transferBookingId === booking.body.id && (
-            <div>
-              <input
-                type="text"
-                placeholder="Enter email address"
-                value={transferEmail}
-                onChange={(e) => setTransferEmail(e.target.value)}
-              />
-              <button
-                type="button"
-                style={styles.button}
-                onClick={confirmTransfer}
-              >
-                Confirm Transfer
-              </button>
-              </div>
-          )}
+                  type="button"
+                  style={{
+                    backgroundColor: '#5F9EA0', border: 'none', color: 'black',
+                    padding: '10px 15px', textAlign: 'center',
+                    fontSize: '16px', margin: '10px', marginLeft: '0'
+                  }}
+                  onClick={() => handleTransfer(booking.body.id)}
+                >
+                  Transfer
+                </button>
+                <button
+                  type="button"
+                  style={{
+                    backgroundColor: '#DC143C', border: 'none', color: 'black',
+                    padding: '10px 15px', textAlign: 'center',
+                    fontSize: '16px', margin: '10px'
+                  }}
+                  onClick={() => handleCancel(booking.body.id)}
+                >
+                  Cancel
+                </button>
+                {transferBookingId === booking.body.id && (
+                  <div>
+                    <input
+                      type="text"
+                      placeholder="Enter email address"
+                      value={transferEmail}
+                      onChange={(e) => setTransferEmail(e.target.value)}
+                    />
+                    <br/>
+                    <button
+                      type="button"
+                      style={{
+                        marginTop: '5px'
+                      }}
+                      onClick={confirmTransfer}
+                    >
+                      Confirm Transfer
+                    </button>
+                  </div>
+                )}
+                </div>
               </div>
             )) : (
               <p>Loading...Please hold on..Check if you're logged in if it takes more than a few seconds to load.</p>
             )}
-          </div>
         </div>
       </div>
       <br></br>

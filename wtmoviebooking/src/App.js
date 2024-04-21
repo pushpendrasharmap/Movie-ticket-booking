@@ -18,7 +18,6 @@ import { useState, useEffect } from 'react';
 import Register from './components/pages/Register';
 import Loginmain from './components/Loginmain';
 import Reservation from './components/pages/Reservation';
-import Reservationtwo from './components/pages/Reservationtwo';
 import Cancelresv from './components/pages/Cancelresv';
 // import { Route } from 'react-router-dom';
 import Verify from './components/pages/Verify';
@@ -56,7 +55,6 @@ function App() {
         <Route path="/theatre" element={<Theatre />} />
         <Route path="/tpage" element={<Tpage />} />
         <Route path="/reservation" element={<Reservation />} />
-<Route path="/resvtw" element={<Reservationtwo />} />
 <Route path="/cancelresv" element={<Cancelresv />} />
 <Route path="/verify" element={<Verify />} />
 

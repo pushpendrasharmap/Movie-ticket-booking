@@ -118,7 +118,14 @@ export default function Loginmain() {
   };
  
   const getId= () => {
-    fetch('http://localhost:8081/api/users/'+ emailInput).then(
+
+    fetch('http://localhost:8081/api/users/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Basic ' + btoa(emailInput + ":" + passwordInput)
+      }
+    }).then(
       response => response.json()
     ).then(data => {
       console.log(data)
@@ -139,10 +146,10 @@ export default function Loginmain() {
   
    const verifyId= () => {
    if(verifyEmail != emailInput){
-    setFormValid("email not matched")
+    setFormValid("email or password not matched")
    }
    else if(verifyPassword != passwordInput){
-    setFormValid("password does not match")
+    setFormValid("email or password not matched")
    }
    else{
     setFormValid(null);

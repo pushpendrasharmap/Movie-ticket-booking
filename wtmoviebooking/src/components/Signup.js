@@ -195,7 +195,7 @@ export default function SignUp() {
 
       <div style={{ marginTop: "10px" }}>
         <Button variant="contained" fullWidth startIcon={<LoginIcon />} onClick={handleSubmit}>
-          LOGIN
+          SIGN UP
         </Button>
       </div>
 
