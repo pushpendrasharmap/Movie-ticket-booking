@@ -32,11 +32,12 @@ function MovieCards(props) {
     <div>
       <Card sx={{ maxWidth: 500, marginTop: "20px" }}>
         <img
-          style={{ width: 290, height: 400 }}
+          style={{ width: 274, height: 365, display: 'block', marginLeft: 'auto',
+            marginRight: 'auto'}}
           src={
             props.passed.posterPath == null
               ? "hello"
-              : `https://image.tmdb.org/t/p/original/${props.passed.posterPath}`
+              : `images/${props.passed.posterPath}`
           }
           alt="poster.exe"
         ></img>
@@ -120,7 +121,7 @@ function MovieCards(props) {
             {props.passed.backdropPath == null ? (
               <img
                 style={{ width: 700, height: 500 }}
-                src={`https://image.tmdb.org/t/p/original/${props.passed.posterPath}`}
+                src={`images/${props.passed.posterPath}`}
                 alt="poster.exe"
               ></img>
             ) : (

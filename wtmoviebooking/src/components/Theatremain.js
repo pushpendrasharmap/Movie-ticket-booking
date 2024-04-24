@@ -4,9 +4,13 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { ReactSession } from 'react-client-session';
 import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from 'react-toastify';
 
 function Theatremain() {
   const [theaters, setTheaters] = useState([]);
+  const [data, setData] = useState([]);
+  const [selectedCity, setSelectedCity] = useState("");
+  const [cities, setCities] = useState([]);
   const [selectedTheater, setSelectedTheater] = useState("");
   const navigate = useNavigate();
 
@@ -18,15 +22,22 @@ function Theatremain() {
     setSelectedTheater(event.target.value);
   };
 
+  const handleCityChange = (event) => {
+    event.preventDefault();
+    setTheaters(data.filter(theatre => theatre.theatreAddress == event.target.value))
+    setSelectedTheater("");
+    setSelectedCity(event.target.value)
+  }
+
   const handleSubmit = (event) => {
     const ol = ReactSession.get("isAdult");
-    const theatreObject = theaters.filter(theater => theater.theatreName === selectedTheater);
+    const theatreObject = data.filter(theater => theater.theatreAddress === selectedCity && theater.theatreName === selectedTheater);
     console.log("theatre object id = " + theatreObject[0].id);
     ReactSession.set("tid", theatreObject[0].id);
     ReactSession.set("theatrename", theatreObject[0].theatreName);
     //const ve= ReactSession.get("verify");
-    if (ol === "false") { 
-      event.preventDefault();
+    if (ol === "false") {
+      event.preventDefault(); 
       // Perform any desired action with the theaterName value
       // Reset the input value
       navigate("/tpage")
@@ -43,7 +54,8 @@ function Theatremain() {
     fetch('http://localhost:8081/api/theatres/m/' + movieId).then(
       response => response.json()
     ).then(data => {
-      setTheaters(data);
+      setData(data);
+      setCities([...new Set(data.map(data =>data.theatreAddress))]);
     }, (e) => {
       console.log(e);
     })
@@ -52,10 +64,22 @@ function Theatremain() {
   return (
     <div style={styles.container}>
       <form onSubmit={handleSubmit} style={styles.form}>
+      <select
+          value={selectedCity}
+          onChange={handleCityChange}
+          style={styles.select}
+          required
+        >
+        <option value="">Select City</option>
+        {cities.map((city, i) => (
+          <option key={i} value={city}>{city}</option>
+        ))}
+        </select>
         <select
           value={selectedTheater}
           onChange={handleTheaterSelect}
           style={styles.select}
+          required
         >
           <option value="">Select a theater</option>
           {theaters.map(theater => (

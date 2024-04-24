@@ -41,8 +41,7 @@ function Theatrepage() {
   var tid = ReactSession.get("tid");
   var email = ReactSession.get("email");
   var movienam = ReactSession.get("movieName")
-  var moviefromWeb = ReactSession.get("moviefromWeb")
-  var [movId, setMovieid] = useState("");
+  var movId = ReactSession.get("movieId")
   var [seat, setSeat] = useState("");
   var [unavailableSeats, setUnavailableSeats] = useState([]);
   const [showDates, setShowDates] = useState([]);
@@ -51,33 +50,12 @@ function Theatrepage() {
   //   var mid=ReactSession.get("mid");
 
   useEffect(() => {
-    const mdetail2 = {
-      movieName: ReactSession.get("movieName"),
-
-    };
-
-    Apicalls.GetMid(mdetail2)
-      .then(response => {
-        console.log(response);
-        setMovieid(response.data.id);
-        ReactSession.set("movieId", response.data.id);
-        console.log(movId);
-        console.log(moviefromWeb);
-        // console.log(movId); // Assuming the response has a boolean field indicating if the movie exists
-      })
-      .catch(error => {
-        console.error(error);
-      });
     const udetail = {
       id: ReactSession.get("id"),
-      movieId: moviefromWeb,
+      movieId: ReactSession.get("movieId"),
       theatreId: ReactSession.get("tid"),
     }
-    // Apicalls.GetUser(udetail)
-    // .then(response => {
-    //   console.log(response.data.user.seat)
-    //   setSeat(response.data.user.seat)
-    // })
+
     Apicalls.GetSeat(udetail).then(
       response => {
         const responseData = response.data; // Store response data in a variable
@@ -88,7 +66,7 @@ function Theatrepage() {
         console.log(udetail.movieId);
       })
 
-    getShows(moviefromWeb, tid);
+    getShows(ReactSession.get("movieId"), tid);
 
   }, []);
 
@@ -151,12 +129,12 @@ function Theatrepage() {
     setSeatPrice(showDateTimes.filter(showDateTime => showDateTime.date === showDate && showDateTime.time === newTime)[0].price)
   };
 
-  const getUnavailableSeats = (date) => {
+  const getUnavailableSeats = (date, time) => {
     const udetail = {
       id: ReactSession.get("id"),
-      movieId: ReactSession.get("moviefromWeb"),
+      movieId: ReactSession.get("movieId"),
       theatreId: ReactSession.get("tid"),
-      datetime: date
+      datetime: date + " T" + time
     };
 
     Apicalls.GetSeat(udetail)
